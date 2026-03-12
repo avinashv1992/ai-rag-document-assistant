@@ -18,7 +18,7 @@ vector_db = Chroma(
 
 
 # Retriever
-retriever = vector_db.as_retriever(search_kwargs={"k": 12})
+retriever = vector_db.as_retriever(search_kwargs={"k": 20})
 
 
 # Reranker model
@@ -54,7 +54,7 @@ while True:
     scored_docs.sort(key=lambda x: x[0], reverse=True)
 
     # Step 6: Take top chunks
-    top_docs = [doc for score, doc in scored_docs[:6]]
+    top_docs = [doc for score, doc in scored_docs[:12]]
 
     print("\nTop chunks after reranking:\n")
 
@@ -68,8 +68,8 @@ while True:
     print("\nRetrieved Context:\n")
 
     for i, doc in enumerate(top_docs):
-        print(doc.page_content[:150])
-        context = "\n".join([doc.page_content for doc in top_docs])
+        #print(f"Chunk {i+1}:\n{doc.page_content}\n")
+        context += doc.page_content + "\n"
 
 
     # Step 8: Prompt
