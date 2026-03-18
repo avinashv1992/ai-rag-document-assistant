@@ -56,7 +56,7 @@ while True:
     # Step 6: Take top chunks
     top_docs = [doc for score, doc in scored_docs[:8]] # take top 8 after reranking to give to LLM
 
-    print("\nTop chunks after reranking:\n")
+    #print("\nTop chunks after reranking:\n")
 
     # for score, doc in scored_docs[:5]:
     #     print("Score:", score)
