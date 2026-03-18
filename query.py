@@ -22,7 +22,7 @@ retriever = vector_db.as_retriever(search_kwargs={"k": 20})
 
 
 # Reranker model
-reranker = CrossEncoder("BAAI/bge-reranker-base")
+reranker = CrossEncoder("BAAI/bge-reranker-base")# this is a good reranker for retrieval tasks. It takes in pairs of (query, passage) and outputs relevance scores. old was->BAAI/bge-reranker-base
 
 
 # Local LLM
@@ -37,7 +37,7 @@ while True:
         break
 
     # Step 1: Retrieve chunks
-    docs = retriever.invoke(question)
+    docs = retriever.invoke(question)  # retrieve optimum chunks to give to reranker
 
     # Step 2: Prepare pairs for reranking
     pairs = []
@@ -54,18 +54,18 @@ while True:
     scored_docs.sort(key=lambda x: x[0], reverse=True)
 
     # Step 6: Take top chunks
-    top_docs = [doc for score, doc in scored_docs[:12]]
+    top_docs = [doc for score, doc in scored_docs[:8]] # take top 8 after reranking to give to LLM
 
     print("\nTop chunks after reranking:\n")
 
-    for score, doc in scored_docs[:5]:
-        print("Score:", score)
-        print(doc.page_content[:200])
-        print("------")
+    # for score, doc in scored_docs[:5]:
+    #     print("Score:", score)
+    #     print(doc.page_content[:200])
+    #     print("------")
 
     # Step 7: Build context
     context = ""
-    print("\nRetrieved Context:\n")
+    #print("\nRetrieved Context:\n")
 
     for i, doc in enumerate(top_docs):
         #print(f"Chunk {i+1}:\n{doc.page_content}\n")
